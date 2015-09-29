@@ -206,9 +206,7 @@ bool zmq::pipe_t::check_write ()
     if (unlikely (!out_active || state != active))
         return false;
 
-    bool full = !check_hwm();
-
-    if (unlikely (full)) {
+    if (unlikely (is_hwm_reached ())) {
         out_active = false;
         return false;
     }
@@ -533,6 +531,10 @@ void zmq::pipe_t::set_hwms_boost(int inhwmboost_, int outhwmboost_)
 
 bool zmq::pipe_t::check_hwm () const
 {
-    bool full = hwm > 0 && msgs_written - peers_msgs_read >= uint64_t (hwm);
-    return( !full );
+    return !is_hwm_reached ();
+}
+
+bool zmq::pipe_t::is_hwm_reached () const
+{
+    return hwm > 0 && msgs_written - peers_msgs_read >= uint64_t (hwm);
 }

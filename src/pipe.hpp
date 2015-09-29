@@ -137,7 +137,12 @@ namespace zmq
         void set_hwms_boost(int inhwmboost_, int outhwmboost_);
 
         //  Returns true if HWM is not reached
+        //  Deprecated: use !is_hvm_reached() instead
         bool check_hwm () const;
+
+        //  Returns true if HWM is reached
+        bool is_hwm_reached () const;
+
     private:
 
         //  Type of the underlying lock-free pipe.

@@ -223,7 +223,7 @@ bool zmq::dist_t::write (pipe_t *pipe_, msg_t *msg_)
 bool zmq::dist_t::check_hwm ()
 {
     for (pipes_t::size_type i = 0; i < matching; ++i)
-        if (!pipes [i]->check_hwm ())
+        if (pipes [i]->is_hwm_reached ())
             return false;
 
     return true;
